@@ -7,6 +7,7 @@ CacheFlow keeps your Pi-hole pointed at a LanCache server using domain lists fro
 - One command install on a Pi-hole host
 - No manual list wrangling or domain deduplication
 - Weekly automated rebuilds from upstream cache-domain data
+- Bring-your-own custom domains when upstream coverage misses something
 - Safe installer that validates the downloaded config before replacing the live file
 
 ## Requirements
@@ -66,6 +67,18 @@ Coverage is driven by [uklans/cache-domains](https://github.com/uklans/cache-dom
 
 See the upstream project for the current full list.
 
+## Custom domains
+
+If upstream misses something, add it to [`custom-domains.txt`](E:/projects/CacheFlow/custom-domains.txt:1), one domain per line:
+
+```text
+steamcontent.com
+steampowered.com
+steamstatic.com
+```
+
+The build script merges this file with the upstream lists, removes duplicates, and publishes a single combined `lancache.conf`.
+
 ## Updating automatically
 
 If you want your Pi-hole to refresh on its own after the weekly build, add a cron job on the Pi-hole host:
@@ -86,6 +99,7 @@ sudo pihole reloaddns
 
 - `install.sh`: installer for Pi-hole hosts
 - `scripts/build_lancache_conf.py`: generates the config from upstream domains
+- `custom-domains.txt`: repo-managed extra domains merged into the generated config
 - `.github/workflows/update-conf.yml`: weekly rebuild automation
 - `lancache.conf`: latest generated config consumed by the installer
 

@@ -12,6 +12,7 @@ from pathlib import Path
 RAW_URL = "https://raw.githubusercontent.com/uklans/cache-domains/master"
 MANIFEST_URL = f"{RAW_URL}/cache_domains.json"
 OUTPUT_PATH = Path(__file__).resolve().parents[1] / "lancache.conf"
+CUSTOM_DOMAINS_PATH = Path(__file__).resolve().parents[1] / "custom-domains.txt"
 
 
 def fetch_text(url: str) -> str:
@@ -37,6 +38,17 @@ def normalize_domain(line: str) -> str | None:
     return line.removeprefix("*.")
 
 
+def load_custom_domains() -> set[str]:
+    if not CUSTOM_DOMAINS_PATH.exists():
+        return set()
+    domains: set[str] = set()
+    for raw_line in CUSTOM_DOMAINS_PATH.read_text(encoding="utf-8").splitlines():
+        domain = normalize_domain(raw_line)
+        if domain:
+            domains.add(domain)
+    return domains
+
+
 def build_lines() -> list[str]:
     domains: set[str] = set()
     for domain_file in fetch_domain_files():
@@ -46,6 +58,9 @@ def build_lines() -> list[str]:
             if domain:
                 domains.add(domain)
 
+    custom_domains = load_custom_domains()
+    domains.update(custom_domains)
+
     if not domains:
         raise RuntimeError("No cacheable domains were generated")
 
@@ -53,6 +68,7 @@ def build_lines() -> list[str]:
         "# LanCache Pi-hole DNS Config",
         f"# Auto-generated at {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}",
         "# Source: https://github.com/uklans/cache-domains",
+        f"# Custom domains merged from {CUSTOM_DOMAINS_PATH.name}: {len(custom_domains)}",
         "# Install script injects your LanCache server IP into each rule.",
         "",
     ]

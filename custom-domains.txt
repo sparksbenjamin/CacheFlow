@@ -1,0 +1,6 @@
+# Add one domain per line to force it to your LanCache server.
+# Lines starting with # are ignored.
+
+steamcontent.com
+steampowered.com
+steamstatic.com
