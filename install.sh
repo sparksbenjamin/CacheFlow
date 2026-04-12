@@ -51,6 +51,16 @@ for cmd in curl pihole grep sed mktemp mv chmod; do
     fi
 done
 
+enable_extra_dnsmasq_dir() {
+    if command -v pihole-FTL >/dev/null 2>&1; then
+        current_setting="$(pihole-FTL --config misc.etc_dnsmasq_d 2>/dev/null || true)"
+        if [[ "$current_setting" == "false" ]]; then
+            echo "==> Enabling /etc/dnsmasq.d loading in Pi-hole FTL..."
+            pihole-FTL --config misc.etc_dnsmasq_d true
+        fi
+    fi
+}
+
 tmp_file="$(mktemp)"
 cleanup() {
     rm -f "$tmp_file"
@@ -84,6 +94,7 @@ mv "$tmp_file" "$PIHOLE_CONF"
 trap - EXIT
 
 echo "==> Installed $entries DNS entries to $PIHOLE_CONF"
+enable_extra_dnsmasq_dir
 echo "==> Reloading Pi-hole DNS..."
 pihole reloaddns
 

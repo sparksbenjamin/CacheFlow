@@ -29,7 +29,8 @@ The installer will:
 2. Replace `LANCACHE_IP` with your LanCache server IP
 3. Validate that the config still contains real `dnsmasq` rules
 4. Atomically write `/etc/dnsmasq.d/05-lancache.conf`
-5. Reload Pi-hole DNS
+5. Enable `/etc/dnsmasq.d` loading on Pi-hole v6 when needed
+6. Reload Pi-hole DNS
 
 To refresh later, run the same command again.
 
