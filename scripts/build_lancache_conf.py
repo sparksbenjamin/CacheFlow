@@ -53,7 +53,7 @@ def build_lines() -> list[str]:
         "# LanCache Pi-hole DNS Config",
         f"# Auto-generated at {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}",
         "# Source: https://github.com/uklans/cache-domains",
-        "# Replace LANCACHE_IP with the IP address of your LanCache server.",
+        "# Install script injects your LanCache server IP into each rule.",
         "",
     ]
     body = [f"server=/{domain}/LANCACHE_IP" for domain in sorted(domains)]
