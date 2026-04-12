@@ -26,7 +26,7 @@ jobs:
       - name: Validate generated config
         run: |
           test -s lancache.conf
-          grep -q '^server=' lancache.conf
+          grep -q '^address=' lancache.conf
           grep -q 'LANCACHE_IP' lancache.conf
 
       - name: Commit updated conf

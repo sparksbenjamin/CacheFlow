@@ -1,6 +1,6 @@
 # CacheFlow
 
-CacheFlow keeps your Pi-hole pointed at a LanCache server using domain lists from [uklans/cache-domains](https://github.com/uklans/cache-domains). The repo ships a ready-to-install `dnsmasq` config, and GitHub Actions rebuilds it every week so the domain coverage stays current.
+CacheFlow keeps your Pi-hole pointed at a LanCache server using domain lists from [uklans/cache-domains](https://github.com/uklans/cache-domains). The repo ships a ready-to-install `dnsmasq` config that maps supported domains to your cache IP, and GitHub Actions rebuilds it every week so the coverage stays current.
 
 ## Why use it
 
@@ -45,7 +45,7 @@ flowchart LR
 ```
 
 - The heavy work happens in GitHub Actions, not on your Pi-hole host.
-- Your Pi-hole only downloads a single generated config and swaps in your IP.
+- Your Pi-hole only downloads a single generated config and swaps in your IP so matching domains resolve directly to the cache.
 - The workflow runs weekly on Sunday at 03:00 UTC, and you can also run it manually from the Actions tab.
 
 ## What gets cached

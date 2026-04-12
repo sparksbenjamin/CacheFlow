@@ -68,9 +68,9 @@ curl -fsSL "${REPO_RAW}/lancache.conf" \
     | sed "s/LANCACHE_IP/${LANCACHE_IP}/g" \
     > "$tmp_file"
 
-entries="$(grep -c '^server=' "$tmp_file" || true)"
+entries="$(grep -c '^address=' "$tmp_file" || true)"
 if [[ "$entries" -eq 0 ]]; then
-    echo "Error: downloaded config did not contain any dnsmasq server entries."
+    echo "Error: downloaded config did not contain any dnsmasq address rules."
     exit 1
 fi
 

@@ -56,7 +56,7 @@ def build_lines() -> list[str]:
         "# Install script injects your LanCache server IP into each rule.",
         "",
     ]
-    body = [f"server=/{domain}/LANCACHE_IP" for domain in sorted(domains)]
+    body = [f"address=/{domain}/LANCACHE_IP" for domain in sorted(domains)]
     return header + body + [""]
 
 
